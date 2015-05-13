@@ -1,25 +1,39 @@
-function getLogSystem(timeToRotate, maxFileSize) {
-  return {
-    type: 'logSystem',
+let LogFile = require('./LogFile.es6');
 
-    start() {
-      this.currentLog = 0;
-      this.lastRotateTime = 0;
-    },
+class LogSystem {
+  constructor(maxLogSize, timeToRotate) {
+    this.maxLogSize = maxLogSize;
+    this.timeToRotate = timeToRotate;
 
-    onMessage(sender, recordSize) {
-      this.currentLog += recordSize;
-      this.tryRotate();
-    },
+    this.currentLog = new LogFile();
+    this.lastRotateTime = 0;
+  }
 
-    tryRotate() {
-      if (this.currentLog >= maxFileSize || this.time() - this.lastRotateTime >= timeToRotate) {
-        console.log(`Rotate when log has ${this.currentLog} bytes`);
-        this.currentLog = 0;
-        this.lastRotateTime = this.time();
-      }
+  static get type() {
+    return 'logSystem';
+  }
+
+  start() {
+
+  }
+
+  onMessage(sender, message) {
+    this.currentLog.addLog(message);
+    this.tryRotate();
+  }
+
+  tryRotate() {
+    //console.log(this.time());
+    //console.log(this.time() - this.lastRotateTime);
+    if (this.currentLog.size >= this.maxLogSize || this.time() - this.lastRotateTime >= this.timeToRotate) {
+      this.currentLog = new LogFile();
+      this.lastRotateTime = this.time();
+
+      console.log(`rotate when time is ${this.time()} size is ${this.maxLogSize}`);
+
+      //TODO: send to Queue
     }
-  };
+  }
 }
 
-module.exports.getLogSystem = getLogSystem;
+module.exports = LogSystem;
