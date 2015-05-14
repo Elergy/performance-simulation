@@ -1,7 +1,7 @@
 module.exports = {
   entry: './simulation.es6.js',
   output: {
-    filename: './bundle.js'
+    filename: 'bundle.js'
   },
   module: {
     loaders: [

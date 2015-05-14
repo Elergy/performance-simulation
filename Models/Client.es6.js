@@ -7,15 +7,13 @@ const SIMULATION_INTERVAL = 1000;
 
 class Client {
   constructor(getClientsCount, getMessage, getMessagesCount) {
+    this.type = 'client';
+
     this.getClientsCount = getClientsCount;
     this.getMessage = getMessage;
     this.getMessagesCount = getMessagesCount;
 
     this.collector = _.find(sim.entities, (entity) => entity.type === 'collector');
-  }
-
-  static get type() {
-    return 'client';
   }
 
   start() {

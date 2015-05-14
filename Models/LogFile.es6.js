@@ -9,8 +9,12 @@ class LogFile {
     this._size += message.length;
   }
 
-  get size() {
+  getSize() {
     return this._size;
+  }
+
+  getLog() {
+    return this._items.shift();
   }
 }
 

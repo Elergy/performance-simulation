@@ -6,11 +6,8 @@ const MESSAGES_SEND_DELAY = 0;
 
 class Collector {
   constructor() {
+    this.type = 'collector';
     this.logSystem = _.find(sim.entities, (entity) => entity.type === 'logSystem');
-  }
-
-  static get type() {
-    return 'client';
   }
 
   start() {
